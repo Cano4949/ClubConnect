@@ -8,342 +8,347 @@ Design Documentation
 
 # Design Decisions
 
-Diese Dokumentation erklärt die wichtigsten Design-Entscheidungen, die bei der Entwicklung von ClubConnect getroffen wurden, sowie die Begründungen dahinter.
+Diese Dokumentation erläutert die zentralen Designentscheidungen, die im Verlauf der Entwicklung von *ClubConnect* getroffen wurden, und gibt jeweils eine Begründung, warum diese Ansätze gewählt wurden.
 
-## 🏗️ Architektur-Entscheidungen
+## Architekturentscheidungen
 
-### 1. Flask Framework Wahl
+### 1. Wahl des Web-Frameworks: Flask
 
-**Entscheidung**: Flask als Web-Framework verwenden
+**Entscheidung:** Einsatz von Flask als Web-Framework.
 
-**Begründung**:
-- **Einfachheit**: Flask ist leichtgewichtig und einfach zu verstehen
-- **Flexibilität**: Ermöglicht modulare Entwicklung mit Blueprints
-- **Kursvorgabe**: Entspricht den Anforderungen für Python-Web-Entwicklung
-- **Lernkurve**: Ideal für Bildungsprojekte und schnelle Prototypenerstellung
-- **Community**: Große Community und umfangreiche Dokumentation
+**Begründung:**
+- Flask ist ein schlankes und leicht verständliches Framework, das sich gut für kleinere Projekte und Lernzwecke eignet.
+- Die modulare Struktur (z. B. Blueprints) ermöglicht eine gute Organisation des Codes.
+- Flask wurde als Empfehlung im Kurs genannt.
+- Die geringe Einstiegshürde und die umfangreiche Dokumentation erleichtern die Umsetzung.
 
-**Alternativen betrachtet**:
-- Django (zu komplex für den Projektumfang)
-- FastAPI (zu modern/komplex für Kurszwecke)
+**Abgewogene Alternativen:**
+- Django: Umfangreicher, aber für den Projektumfang zu schwergewichtig.
+- FastAPI: Modern, aber im Kurszusammenhang zu komplex.
 
-### 2. Blueprint-Architektur
+### 2. Modularer Aufbau mit Blueprints
 
-**Entscheidung**: Modulare Struktur mit drei Blueprints (main, auth, admin)
+**Entscheidung:** Strukturierung der Anwendung mit drei Blueprints: `main`, `auth`, `admin`.
 
-**Begründung**:
-- **Skalierbarkeit**: Einfache Erweiterung um neue Module
-- **Wartbarkeit**: Klare Trennung der Verantwortlichkeiten
-- **Teamarbeit**: Verschiedene Entwickler können an verschiedenen Blueprints arbeiten
-- **Code-Organisation**: Logische Gruppierung verwandter Funktionen
+**Begründung:**
+- Der modulare Aufbau fördert die Wartbarkeit und erleichtert die Arbeit im Team.
+- Verantwortlichkeiten sind klar getrennt.
+- Neue Features lassen sich einfacher integrieren.
 
-**Struktur**:
-```
+**Projektstruktur:**
 app/
-├── main/     # Öffentliche Seiten
-├── auth/     # Authentifizierung
-└── admin/    # Verwaltungsfunktionen
-```
+├── main/ # Öffentliche Inhalte
+├── auth/ # Login/Registrierung
+└── admin/ # Verwaltungsbereich
 
-### 3. SQLite als Datenbank
 
-**Entscheidung**: SQLite für Entwicklung, PostgreSQL für Produktion
+### 3. Datenbank: SQLite in der Entwicklung
 
-**Begründung**:
-- **Einfachheit**: Keine separate Datenbankinstallation erforderlich
-- **Portabilität**: Datenbankdatei kann einfach kopiert werden
-- **Entwicklung**: Ideal für lokale Entwicklung und Tests
-- **Kursvorgabe**: Entspricht den Anforderungen für einfache Projekte
+**Entscheidung:** Verwendung von SQLite für die Entwicklung, geplant: PostgreSQL für die Produktion.
 
-**Produktionsalternative**: PostgreSQL für bessere Performance und Concurrent Access
+**Begründung:**
+- SQLite ist leichtgewichtig und benötigt keine zusätzliche Installation.
+- Die Datenbankdatei kann einfach versioniert und verschoben werden.
+- Für Test- und Entwicklungszwecke völlig ausreichend.
+- Für spätere produktive Einsätze ist PostgreSQL vorgesehen.
 
-## 🎨 UI/UX Design-Entscheidungen
+## UI/UX Designentscheidungen
 
-### 1. Bootstrap 5.3 Framework
+### 1. Verwendung von Bootstrap (Version 5.3)
 
-**Entscheidung**: Bootstrap als CSS-Framework verwenden
+**Entscheidung:** Bootstrap als CSS-Framework.
 
-**Begründung**:
-- **Responsive Design**: Automatische Anpassung an verschiedene Bildschirmgrößen
-- **Konsistenz**: Einheitliches Design ohne eigenes CSS-Framework
-- **Schnelligkeit**: Vorgefertigte Komponenten beschleunigen Entwicklung
-- **Kursvorgabe**: Kein eigenes JavaScript erforderlich
-- **Browser-Kompatibilität**: Funktioniert in allen modernen Browsern
+**Begründung:**
+- Schneller Aufbau einer konsistenten Benutzeroberfläche.
+- Responsive Design ist bereits integriert.
+- Der Einsatz fertiger Komponenten spart Entwicklungszeit.
+- Keine eigenen JavaScript-Implementierungen notwendig.
 
-**Komponenten verwendet**:
-- Grid-System für Layout
-- Cards für Content-Gruppierung
-- Navigation und Breadcrumbs
-- Formulare und Buttons
-- Badges und Alerts
+**Genutzte Elemente:**
+- Grid-System für Layouts
+- Cards zur Gruppierung von Inhalten
+- Navigation, Formulare, Alerts, Badges usw.
 
-### 2. Farbschema und Branding
+### 2. Farbgebung und visuelle Identität
 
-**Entscheidung**: Sportliches Farbschema mit Blau/Rot/Grün
+**Entscheidung:** Blau/Rot/Grün als sportlich-dynamisches Farbschema.
 
-**Begründung**:
-- **Sportlicher Charakter**: Farben assoziiert mit Sport und Teamgeist
-- **Zugänglichkeit**: Hoher Kontrast für bessere Lesbarkeit
-- **Emotionale Wirkung**: Vertrauen (Blau), Energie (Rot), Erfolg (Grün)
+**Begründung:**
+- Farben erzeugen einen sportlichen Gesamteindruck.
+- Kontraste sorgen für gute Lesbarkeit.
+- Emotionale Assoziationen: Blau steht für Vertrauen, Rot für Aktivität, Grün für Bestätigung.
 
-**Farbpalette**:
+**Farbdefinition:**
 ```css
 :root {
-    --primary-color: #2C3E50;    /* Dunkelblau */
-    --secondary-color: #3498DB;   /* Hellblau */
-    --success-color: #27AE60;     /* Grün */
-    --danger-color: #E74C3C;      /* Rot */
-    --background-color: #F5F6FA;  /* Hellgrau */
+    --primary-color: #2C3E50;
+    --secondary-color: #3498DB;
+    --success-color: #27AE60;
+    --danger-color: #E74C3C;
+    --background-color: #F5F6FA;
 }
-```
+3. Navigationskonzept
+Entscheidung: Horizontale Navigation mit Rollenabhängigkeit.
 
-### 3. Navigation und Benutzerführung
+Begründung:
 
-**Entscheidung**: Horizontale Navigation mit klarer Hierarchie
+Bekannte Struktur sorgt für einfache Orientierung.
 
-**Begründung**:
-- **Intuitive Bedienung**: Standard-Webnavigation
-- **Mobile-First**: Responsive Navigation mit Hamburger-Menü
-- **Rollenbasiert**: Verschiedene Menüpunkte je nach Benutzerrolle
-- **Breadcrumbs**: Klare Orientierung in der Anwendung
+Mobile Darstellung erfolgt über Hamburger-Menü.
 
-## 📊 Datenmodell-Entscheidungen
+Menüpunkte passen sich je nach Nutzerrolle an.
 
-### 1. Relationales Datenbankschema
+Breadcrumbs helfen bei der Orientierung innerhalb der App.
 
-**Entscheidung**: Normalisierte Datenbankstruktur mit Foreign Keys
+Datenmodell
+1. Relationale Struktur mit Foreign Keys
+Entscheidung: Verwendung eines normalisierten Schemas.
 
-**Begründung**:
-- **Datenintegrität**: Foreign Key Constraints verhindern inkonsistente Daten
-- **Flexibilität**: Einfache Erweiterung um neue Entitäten
-- **Performance**: Optimierte Queries durch Indizierung
-- **Standards**: Folgt bewährten Datenbankdesign-Prinzipien
+Begründung:
 
-### 2. Many-to-Many Beziehung über Junction Table
+Einhaltung von Datenintegrität durch Foreign Keys.
 
-**Entscheidung**: Invites-Tabelle als Junction Table zwischen Players und Events
+Tabellen lassen sich bei Bedarf leicht erweitern.
 
-**Begründung**:
-- **Zusätzliche Attribute**: Status, Notizen, Zeitstempel
-- **Flexibilität**: Einfache Erweiterung um weitere Invite-Eigenschaften
-- **Datenintegrität**: Unique Constraint verhindert Duplikate
-- **Auditierbarkeit**: Nachverfolgung von Einladungsänderungen
+Effiziente Datenabfragen durch Indizes.
 
-### 3. Textbasierte Datentypen
+2. Many-to-Many über Junction Table
+Entscheidung: Verknüpfung von Spielern und Events über eine invites-Tabelle.
 
-**Entscheidung**: TEXT-Felder für Datum/Zeit statt native Datentypen
+Begründung:
 
-**Begründung**:
-- **SQLite-Kompatibilität**: Einfache Handhabung in SQLite
-- **Flexibilität**: Einfache String-Operationen und Formatierung
-- **Portabilität**: Funktioniert in verschiedenen Datenbanktypen
-- **Einfachheit**: Weniger Komplexität bei Datum/Zeit-Konvertierungen
+Die Tabelle enthält zusätzliche Informationen (z. B. Status, Notizen).
 
-## 🔐 Sicherheits-Entscheidungen
+Eindeutige Einträge werden durch Constraints abgesichert.
 
-### 1. Session-basierte Authentifizierung
+Änderungen an Einladungen lassen sich nachverfolgen.
 
-**Entscheidung**: Flask-Sessions für Benutzerauthentifizierung
+3. Speicherung von Datum/Zeit als Text
+Entscheidung: Speicherung von Zeitangaben als TEXT.
 
-**Begründung**:
-- **Einfachheit**: Integriert in Flask, keine zusätzlichen Libraries
-- **Sicherheit**: Server-seitige Session-Speicherung
-- **Kursvorgabe**: Entspricht dem Bildungskontext
-- **Stateful**: Einfache Implementierung von Login/Logout
+Begründung:
 
-**Sicherheitsmaßnahmen**:
-- HTTPOnly Cookies
-- Secure Flag in Produktion
-- Session-Timeout
-- CSRF-Schutz
+SQLite unterstützt keine echten Datums-Typen.
 
-### 2. CSRF-Schutz mit Flask-WTF
+Textwerte sind einfach zu formatieren und zu vergleichen.
 
-**Entscheidung**: Automatischer CSRF-Schutz für alle Formulare
+Portabel und ausreichend für den aktuellen Einsatzzweck.
 
-**Begründung**:
-- **Sicherheit**: Schutz vor Cross-Site Request Forgery
-- **Automatisierung**: Transparente Integration in WTForms
-- **Best Practice**: Standard-Sicherheitsmaßnahme für Web-Anwendungen
-- **Einfachheit**: Minimaler Implementierungsaufwand
+Sicherheit
+1. Sessionbasierte Authentifizierung
+Entscheidung: Nutzung der Flask-internen Session-Verwaltung.
 
-### 3. Klartext-Passwörter (Entwicklung)
+Begründung:
 
-**Entscheidung**: Passwörter im Klartext für Entwicklungsphase
+Einfach in der Umsetzung.
 
-**Begründung**:
-- **Entwicklungsgeschwindigkeit**: Einfache Implementierung für Prototyp
-- **Debugging**: Einfache Fehlersuche und Testing
-- **Bildungskontext**: Fokus auf Anwendungslogik, nicht Sicherheit
-- **Dokumentiert**: Klare Kennzeichnung als Entwicklungsversion
+Sessions werden serverseitig gespeichert.
 
-**Produktionshinweis**: Für Produktion muss Passwort-Hashing implementiert werden
+Die Lösung erfüllt die Anforderungen im Kurskontext.
 
-## 🎯 Benutzerinterface-Entscheidungen
+Zusätzliche Maßnahmen:
 
-### 1. Card-basiertes Layout
+HTTPOnly Cookies
 
-**Entscheidung**: Bootstrap Cards für Content-Gruppierung
+Secure-Flag im Produktivmodus
 
-**Begründung**:
-- **Visuelle Hierarchie**: Klare Abgrenzung verschiedener Inhalte
-- **Moderne Ästhetik**: Zeitgemäßes Design mit Schatten und Rundungen
-- **Flexibilität**: Einfache Anpassung und Erweiterung
-- **Responsive**: Automatische Anpassung an Bildschirmgrößen
+Session-Timeout
 
-### 2. Icon-Integration
+CSRF-Schutz
 
-**Entscheidung**: Bootstrap Icons für visuelle Unterstützung
+2. CSRF-Absicherung
+Entscheidung: Verwendung von Flask-WTF zur Absicherung aller Formulare.
 
-**Begründung**:
-- **Konsistenz**: Einheitlicher Icon-Stil
-- **Performance**: Vektorbasierte Icons, kleine Dateigröße
-- **Zugänglichkeit**: Unterstützung für Screen Reader
-- **Intuitivität**: Universell verständliche Symbole
+Begründung:
 
-### 3. Status-Visualisierung
+Schutz vor Cross-Site Request Forgery.
 
-**Entscheidung**: Farbkodierte Badges für Einladungsstatus
+Nahtlose Integration in das Formularhandling.
 
-**Begründung**:
-- **Schnelle Erfassung**: Sofortige visuelle Erkennung des Status
-- **Farbpsychologie**: Grün=Gut, Rot=Problem, Grau=Neutral
-- **Konsistenz**: Einheitliche Farbverwendung in der gesamten App
-- **Barrierefreiheit**: Zusätzlich Text für Farbenblinde
+Entspricht gängigen Sicherheitsstandards.
 
-## 📱 Mobile-First Entscheidungen
+3. Klartext-Passwörter (nur Entwicklung)
+Entscheidung: Temporäre Speicherung von Passwörtern im Klartext für Entwicklung und Tests.
 
-### 1. Responsive Grid-System
+Begründung:
 
-**Entscheidung**: Bootstrap Grid für alle Layouts
+Schnellere Entwicklung und einfaches Testen.
 
-**Begründung**:
-- **Mobile-First**: Optimierung für kleinste Bildschirme zuerst
-- **Flexibilität**: Automatische Anpassung an verschiedene Geräte
-- **Performance**: Optimierte Darstellung auf allen Geräten
-- **Benutzerfreundlichkeit**: Konsistente Erfahrung über alle Plattformen
+Im Code klar als Übergangslösung dokumentiert.
 
-### 2. Touch-optimierte Bedienung
+In einer produktiven Umgebung müssen Passwörter gehasht werden.
 
-**Entscheidung**: Große Buttons und Touch-Targets
+Benutzeroberfläche
+1. Verwendung von Cards
+Entscheidung: Inhalte werden mithilfe von Bootstrap-Cards strukturiert.
 
-**Begründung**:
-- **Usability**: Einfache Bedienung auf Touchscreens
-- **Zugänglichkeit**: Bessere Bedienbarkeit für alle Benutzer
-- **Standards**: Folgt mobilen Design-Guidelines
-- **Fehlerreduktion**: Weniger Fehlklicks durch größere Ziele
+Begründung:
 
-## 🔧 Entwicklungs-Entscheidungen
+Inhalte sind visuell klar getrennt.
 
-### 1. Environment-basierte Konfiguration
+Moderne Optik und gute Skalierbarkeit.
 
-**Entscheidung**: Separate Konfigurationsklassen für verschiedene Umgebungen
+Cards lassen sich leicht erweitern und neu anordnen.
 
-**Begründung**:
-- **Flexibilität**: Einfacher Wechsel zwischen Entwicklung/Produktion
-- **Sicherheit**: Sensitive Daten in Umgebungsvariablen
-- **Wartbarkeit**: Zentrale Konfigurationsverwaltung
-- **Best Practice**: Standard-Ansatz für Flask-Anwendungen
+2. Einsatz von Icons
+Entscheidung: Bootstrap Icons werden für eine bessere Benutzerführung eingesetzt.
 
-### 2. App Factory Pattern
+Begründung:
 
-**Entscheidung**: Flask App Factory für Anwendungserstellung
+Vektorbasierte Icons sind leichtgewichtig.
 
-**Begründung**:
-- **Testbarkeit**: Einfache Erstellung von Test-Instanzen
-- **Flexibilität**: Verschiedene Konfigurationen zur Laufzeit
-- **Skalierbarkeit**: Bessere Struktur für größere Anwendungen
-- **Best Practice**: Empfohlener Ansatz für Flask-Anwendungen
+Sie steigern die Übersichtlichkeit und Verständlichkeit.
 
-### 3. Separate Utility-Scripts
+Unterstützung für Screenreader ist gegeben.
 
-**Entscheidung**: Eigenständige Scripts für Datenbank-Management
+3. Visualisierung von Statuswerten
+Entscheidung: Einladungsstatus wird über farbige Badges angezeigt.
 
-**Begründung**:
-- **Wartbarkeit**: Klare Trennung von Anwendungs- und Verwaltungslogik
-- **Benutzerfreundlichkeit**: Einfache CLI-Tools für häufige Aufgaben
-- **Automatisierung**: Möglichkeit für Deployment-Scripts
-- **Debugging**: Einfache Datenbank-Verwaltung während Entwicklung
+Begründung:
 
-## 📈 Performance-Entscheidungen
+Farbgebung erlaubt eine schnelle Erfassung des Status.
 
-### 1. Minimales JavaScript
+Farben werden konsistent in der Anwendung verwendet.
 
-**Entscheidung**: Verzicht auf eigenes JavaScript (Kursvorgabe)
+Textliche Ergänzung stellt Barrierefreiheit sicher.
 
-**Begründung**:
-- **Kursvorgabe**: Explizite Anforderung des Kurses
-- **Einfachheit**: Fokus auf Server-seitige Logik
-- **Performance**: Weniger Client-seitige Komplexität
-- **Zugänglichkeit**: Funktioniert auch ohne JavaScript
+Mobile-First Design
+1. Grid-System für Responsivität
+Entscheidung: Einsatz des Bootstrap-Grid-Systems.
 
-### 2. Template-basiertes Rendering
+Begründung:
 
-**Entscheidung**: Server-seitiges Rendering mit Jinja2
+Darstellung passt sich automatisch verschiedenen Bildschirmgrößen an.
 
-**Begründung**:
-- **SEO-Freundlich**: Vollständiger HTML-Content beim ersten Load
-- **Performance**: Schnelle Darstellung ohne Client-seitige Verarbeitung
-- **Einfachheit**: Weniger Komplexität als SPA-Ansätze
-- **Caching**: Möglichkeit für Template-Caching
+Gute Benutzererfahrung auf Mobilgeräten.
 
-## 🎓 Bildungskontext-Entscheidungen
+Mobile-First-Ansatz wurde bewusst gewählt.
 
-### 1. Umfangreiche Dokumentation
+2. Bedienung auf Touchgeräten
+Entscheidung: Große Buttons und klar erkennbare Bedienelemente.
 
-**Entscheidung**: Detaillierte Dokumentation aller Aspekte
+Begründung:
 
-**Begründung**:
-- **Lernziel**: Demonstration des Verständnisses
-- **Nachvollziehbarkeit**: Erklärung aller Designentscheidungen
-- **Wartbarkeit**: Einfache Weiterentwicklung durch andere
-- **Präsentation**: Grundlage für Projektpräsentation
+Erhöhte Benutzerfreundlichkeit auf Smartphones und Tablets.
 
-### 2. Realistische Testdaten
+Verringerung von Fehleingaben durch größere Ziele.
 
-**Entscheidung**: Umfangreiche, realistische Seed-Daten
+Berücksichtigung moderner Designrichtlinien.
 
-**Begründung**:
-- **Demonstration**: Zeigt Funktionalität in realistischem Kontext
-- **Testing**: Ermöglicht umfassende Tests aller Features
-- **Präsentation**: Professioneller Eindruck bei Vorführung
-- **Entwicklung**: Einfache Entwicklung mit vorhandenen Daten
+Entwicklungsentscheidungen
+1. Konfigurationsklassen
+Entscheidung: Getrennte Konfigurationsklassen für verschiedene Umgebungen.
 
-### 3. Schrittweise Commit-Struktur
+Begründung:
 
-**Entscheidung**: Detaillierter Commit-Guide für nachvollziehbare Entwicklung
+Lokale Entwicklung und Produktion lassen sich getrennt verwalten.
 
-**Begründung**:
-- **Lernnachweis**: Demonstration des Entwicklungsprozesses
-- **Nachvollziehbarkeit**: Klare Entwicklungsschritte
-- **Best Practice**: Vermittlung professioneller Git-Workflows
-- **Bewertung**: Erleichtert Bewertung des Entwicklungsprozesses
+Zugangsdaten werden über Umgebungsvariablen geschützt.
 
-## 🔮 Zukunftssicherheit
+Alle Einstellungen sind zentral an einer Stelle gepflegt.
 
-### 1. Erweiterbare Architektur
+2. App Factory Pattern
+Entscheidung: Die Anwendung wird über eine App-Factory erstellt.
 
-**Entscheidung**: Modulare Struktur für einfache Erweiterungen
+Begründung:
 
-**Begründung**:
-- **Skalierbarkeit**: Einfache Hinzufügung neuer Features
-- **Wartbarkeit**: Änderungen betreffen nur spezifische Module
-- **Teamarbeit**: Parallele Entwicklung verschiedener Features
-- **Lernziel**: Demonstration von Software-Architektur-Prinzipien
+Erleichtert das Testen einzelner Komponenten.
 
-### 2. Konfigurierbare Komponenten
+Verschiedene Konfigurationen können zur Laufzeit geladen werden.
 
-**Entscheidung**: Umgebungsvariablen für alle konfigurierbaren Aspekte
+Die Struktur ist langfristig wartbar.
 
-**Begründung**:
-- **Flexibilität**: Anpassung ohne Code-Änderungen
-- **Deployment**: Einfache Konfiguration für verschiedene Umgebungen
-- **Sicherheit**: Sensitive Daten außerhalb des Codes
-- **Best Practice**: Standard-Ansatz für professionelle Anwendungen
+3. Hilfsskripte für Datenbankaktionen
+Entscheidung: Eigene Python-Skripte zur Verwaltung der Datenbank.
 
----
+Begründung:
 
-Diese Design-Entscheidungen bilden die Grundlage für eine wartbare, skalierbare und benutzerfreundliche ClubConnect-Anwendung, die sowohl den Bildungszielen als auch professionellen Standards entspricht.
+Trennung von Anwendung und Verwaltung.
+
+Erleichtert das Debugging und lokale Tests.
+
+Wiederverwendbarkeit für Initialisierung oder Seed-Daten.
+
+Performance
+1. Minimale Verwendung von JavaScript
+Entscheidung: Kein eigenes JavaScript (gemäß Kursvorgabe).
+
+Begründung:
+
+Vereinfachung des Projekts.
+
+Konzentration auf serverseitige Logik.
+
+Anwendung funktioniert auch bei deaktiviertem JavaScript.
+
+2. Serverseitiges Rendering
+Entscheidung: HTML-Templates mit Jinja2 werden auf dem Server gerendert.
+
+Begründung:
+
+Bessere Kontrolle über das ausgelieferte HTML.
+
+Schnelle Ladezeiten und bessere Performance.
+
+Ideal für klassische Webanwendungen mit Formularen.
+
+Bildungskontext
+1. Umfangreiche Dokumentation
+Entscheidung: Ausführliche Beschreibung aller Designentscheidungen.
+
+Begründung:
+
+Dokumentation dient als Lernnachweis.
+
+Erleichtert die spätere Wartung und Weiterentwicklung.
+
+Hilft bei der Bewertung im Kurskontext.
+
+2. Realitätsnahe Seed-Daten
+Entscheidung: Erzeugung realistischer Testdaten für die Entwicklung.
+
+Begründung:
+
+Erlaubt vollständige Demonstrationen und Tests.
+
+Gibt einen professionellen Eindruck bei Präsentationen.
+
+Unterstützt alle Features der App bereits in der Entwicklung.
+
+3. Detaillierte Git-Kommentierung
+Entscheidung: Kleine, nachvollziehbare Commits mit erklärenden Nachrichten.
+
+Begründung:
+
+Klare Nachvollziehbarkeit des Entwicklungsprozesses.
+
+Git-Historie zeigt Lernfortschritt.
+
+Best Practice für Softwareentwicklung.
+
+Zukunftssicherheit
+1. Erweiterbare Code-Struktur
+Entscheidung: Modulares Design mit Erweiterbarkeit im Blick.
+
+Begründung:
+
+Neue Funktionen können ohne große Umbauten ergänzt werden.
+
+Einzelne Komponenten bleiben übersichtlich.
+
+Gute Grundlage für spätere Weiterentwicklung.
+
+2. Nutzung von Umgebungsvariablen
+Entscheidung: Konfiguration erfolgt über .env-Dateien und Umgebungsvariablen.
+
+Begründung:
+
+Sensible Daten bleiben außerhalb des Codes.
+
+Deployment ist dadurch flexibler und sicherer.
+
+Entspricht gängigen Standards in der Webentwicklung.
+
 
 
 
