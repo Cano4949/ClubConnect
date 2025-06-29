@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ClubConnect - Complete Edition
 
 Eine vollständige Flask-Anwendung zur Verwaltung von Jugendmannschaften im Sportverein.
@@ -150,3 +151,7 @@ MIT License - siehe LICENSE Datei
 ---
 
 **ClubConnect** - Moderne Vereinsverwaltung für Jugendmannschaften
+=======
+# ClubConnect
+https://cano4949.github.io/ClubConnect/
+>>>>>>> 648c88e86c5ac164c3e1eec8851fec3634e124c2
